@@ -320,7 +320,8 @@ class CoordConvTranspose(nn.Module):
 def makeXChannel_andCatIt(mytensor, iscuda):
     dims = mytensor.shape[-2:]
     xdim = dims[0]
-    myrange = np.arange(1, step=1/xdim)
+    #myrange = np.arange(1, step=1/xdim) #sometimes this spits out a range with an extra 1. at the end.
+    myrange = np.arange(xdim)/xdim
     if xdim > 1: #please no divide by 0
         myrange *= xdim/(xdim - 1)
     mychannel = np.repeat(myrange.reshape(xdim, 1), xdim, axis=1).T
@@ -335,7 +336,8 @@ def makeXChannel_andCatIt(mytensor, iscuda):
 def makeYChannel_andCatIt(mytensor, iscuda):
     dims = mytensor.shape[-2:]
     ydim = dims[1]
-    myrange = np.arange(1, step=1/ydim)
+    #myrange = np.arange(1, step=1/ydim)
+    myrange = np.arange(ydim)/ydim
     if ydim > 1:
         myrange *= ydim/(ydim - 1)
     mychannel = np.repeat(myrange.reshape(ydim, 1), ydim, axis=1)
